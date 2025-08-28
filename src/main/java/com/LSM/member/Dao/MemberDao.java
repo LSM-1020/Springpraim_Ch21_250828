@@ -33,7 +33,7 @@ public class MemberDao {
 		jdbcTemplate.update(sql, memberid,memberpw,membername,memberage);	
 		//정보 수정한 레코드 수를 반환(기본키로 검색) 1 or 0
 	}
-	//select문 - 회원 검색
+	//select문 - 회원 1명 검색
 	public MemberDto searchMember(String memberid) {
 		String sql = "SELECT * FROM membertbl WHERE memberid=?";
 		MemberDto mDto = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<MemberDto>(MemberDto.class),memberid);	

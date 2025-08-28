@@ -1,5 +1,7 @@
 package com.LSM.member.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.LSM.member.Dao.MemberDao;
+import com.LSM.member.Dto.MemberDto;
 
 @Controller
 public class MemberController {
@@ -17,6 +20,18 @@ public class MemberController {
 	@RequestMapping(value="/join")
 	public String join() {
 		return "join";
+	}
+	@RequestMapping(value="/search")
+	public String search() {
+		return "searchmember";
+	}
+	@RequestMapping(value="/searchOk")
+	public String searchOk(HttpServletRequest request, Model model) {
+		MemberDto mDto = memberDao.searchMember(request.getParameter("memberid"));
+		model.addAttribute("mDto",mDto);
+		model.addAttribute("result","1");
+		
+		return "searchmember";
 	}
 	@RequestMapping(value="/joinOk")
 	public String joinOk(HttpServletRequest request, Model model) {
@@ -33,4 +48,12 @@ public class MemberController {
 		
 		return "redirect:memberlist";
 	}
+	@RequestMapping(value="/memberlist")
+	public String memberlist(Model model) {
+		List<MemberDto> mDtos= memberDao.searchMembers();
+		model.addAttribute("mDtos",mDtos);
+		return "memberlist";
+	}
+	
+	
 }
